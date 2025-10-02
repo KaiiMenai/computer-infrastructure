@@ -18,6 +18,8 @@ import datetime
 import statsmodels as sm
 import scipy as spy
 
+# This code downloads the hourly data for the last 5 days for the 5 FAANG stocks (Facebook, Apple, Amazon, Netflix, Google) using the yfinance package.
+
 faang5_data = yf.download(tickers="AAPL AMZN META GOOG NFLX", period="5d", interval="1h") # adapted from https://stackoverflow.com/questions/74479906/how-to-get-aggregate-4hour-bars-historical-stock-data-using-yfinance-in-python
 
 def get_data(faang5_data): 
@@ -37,7 +39,6 @@ if not os.path.exists(output_dir):
     # Get the absolute path of the output directory
 absolute_output_dir = os.path.abspath(output_dir)
 
-# This code downloads the hourly data for the last 5 days for the 5 FAANG stocks (Facebook, Apple, Amazon, Netflix, Google) using the yfinance package.
 # Now to save it as a .csv file in a folder called data-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv.
 # Save the data to a CSV file
 current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
