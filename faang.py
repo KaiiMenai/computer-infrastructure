@@ -30,7 +30,7 @@ get_data(faang5_data)
 # I kept getting an error that the folder didn't exist so I created it manually in the root repository.
 # So now I need to check that the directory exists before trying to save the file.
 import os
-output_dir = "data-faang-stocks"
+output_dir = r"D:\Data_Analytics\Modules\CI\computer-infrastructure\data-faang-stocks"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
     
