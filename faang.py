@@ -50,4 +50,8 @@ print(f"File saved at: {file_path}")
 print(f"Absolute path to output directory: {absolute_output_dir}")
 print("Files in directory:", os.listdir(output_dir))
 
+# Now I want to create a function that opens the latest data folder
+
+
+
 # END
