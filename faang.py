@@ -50,8 +50,12 @@ print(f"File saved at: {file_path}")
 print(f"Absolute path to output directory: {absolute_output_dir}")
 print("Files in directory:", os.listdir(output_dir))
 
-# Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
-# I will use the date as the title for the plot.
+# Need to make sure that the file is saved in the correct type - integer, float etc.
+data_types = faang5_data.dtypes
+print("Data types of each column:" , data_types) # with floats and ints it will make it harder to plot the data.
 
+
+# Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
+# I will use the date as the title for the plot. https://www.kaggle.com/code/leeyongbin/faang-stock-data-visualization
 
 # END
