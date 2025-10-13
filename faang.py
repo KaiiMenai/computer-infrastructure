@@ -58,4 +58,9 @@ print("Data types of each column:" , data_types) # with floats and ints it will 
 # Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
 # I will use the date as the title for the plot. https://www.kaggle.com/code/leeyongbin/faang-stock-data-visualization
 
+# I need to find the latest file in the directory.
+
+# then need to degine the function to plot the data
+# used the def plot_data()
+
 # END
