@@ -58,6 +58,34 @@ print("Data types of each column:" , data_types) # with floats and ints it will 
 # Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
 # I will use the date as the title for the plot. https://www.kaggle.com/code/leeyongbin/faang-stock-data-visualization
 
+def plot_data():
+    # Get the list of files in the directory
+    files = os.listdir(absolute_output_dir)
+    # Filter out only CSV files
+    csv_files = [f for f in files if f.lower().endswith('.csv')]
+    if not csv_files:
+        print(f"No CSV files found in {absolute_output_dir}")
+        return
+
+    # Sort the files by modification time in descending order and pick latest
+    csv_files.sort(key=lambda x: os.path.getmtime(os.path.join(absolute_output_dir, x)), reverse=True)
+    latest_file = csv_files[0]
+    latest_file_path = os.path.join(absolute_output_dir, latest_file)
+    print(f"Using latest CSV: {latest_file}")
+
+    tickers = ["AAPL", "AMZN", "META", "GOOG", "NFLX"]
+
+    plt.title(f"FAANG Stock Closing Prices - {latest_file.split('.')[0]}")
+    plt.xlabel("Date")
+    plt.ylabel("Closing Price (USD)")
+    plt.legend()
+    plt.grid()
+    plt.show()
+    
+# Now to call the function to plot the data#
+plot_data()
+
+
 # I need to find the latest file in the directory.
 
 # then need to degine the function to plot the data
