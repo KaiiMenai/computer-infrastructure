@@ -39,6 +39,10 @@ if not os.path.exists(output_dir):
     # Get the absolute path of the output directory
 absolute_output_dir = os.path.abspath(output_dir)
 
+# Need to make sure that the file is saved in the correct type - integer, float etc.
+data_types = faang5_data.dtypes
+print("Data types of each column:" , data_types) # with floats and ints it will make it harder to plot the data.
+
 # Now to save it as a .csv file in a folder called data-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv. and make sure I don't lose the date and time index.
 # Save the data to a CSV file
 current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
@@ -49,11 +53,6 @@ faang5_data.to_csv(file_path, date_format='%Y-%m-%d %H:%M:%S') # adapted from ht
 print(f"File saved at: {file_path}")
 print(f"Absolute path to output directory: {absolute_output_dir}")
 print("Files in directory:", os.listdir(output_dir))
-
-# Need to make sure that the file is saved in the correct type - integer, float etc.
-data_types = faang5_data.dtypes
-print("Data types of each column:" , data_types) # with floats and ints it will make it harder to plot the data.
-
 
 # Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
 # I will use the date as the title for the plot. https://www.kaggle.com/code/leeyongbin/faang-stock-data-visualization
@@ -75,20 +74,103 @@ def plot_data():
 
     tickers = ["AAPL", "AMZN", "META", "GOOG", "NFLX"]
 
-    plt.title(f"FAANG Stock Closing Prices - {latest_file.split('.')[0]}")
-    plt.xlabel("Date")
-    plt.ylabel("Closing Price (USD)")
-    plt.legend()
-    plt.grid()
+    # Try reading the CSV that was saved with a 3-line header (Price / Ticker / Datetime) https://sparkbyexamples.com/pandas/pandas-multiindex-dataframe-examples/#:~:text=Pandas%20MultiIndex%20to%20Columns,to%20DataFrame%20starting%20from%20zero.
+    try:
+        # The CSV has a multi-row header: first row contains Price/Close/High/..., second the tickers. - https://towardsdatascience.com/working-with-multi-index-pandas-dataframes-f64d2e2c3e02/, https://pandas.pydata.org/docs/user_guide/advanced.html
+        # The third row in the file contains the literal 'Datetime' in the first column which will be skipped.
+        data = pd.read_csv(latest_file_path, header=[0, 1], skiprows=[2], index_col=0, parse_dates=True)
+    except Exception as e:
+        print("Warning: failed to read CSV with MultiIndex header, trying fallback. Error:", e) # This will help find error cause.
+        # Try to read normally and attempt to promote the first data row to column level 1 if it contains tickers - not entirely necessary but noted just incase
+        data = pd.read_csv(latest_file_path, index_col=0, parse_dates=True)
+        # If the first row contains ticker symbols, promote it to second-level header -  https://www.datacamp.com/tutorial/pandas-read-csv
+        try:
+            first_row = data.iloc[0]
+            # if the first row contains one of the expected tickers, use it as second header 
+            if any(str(x) in tickers for x in first_row.values):
+                new_cols = pd.MultiIndex.from_arrays([data.columns, first_row.values])
+                data = data[1:]
+                data.columns = new_cols
+                data.index = pd.to_datetime(data.index)
+                print("Promoted first data row to MultiIndex column level")
+        except Exception:
+            # If anything goes wrong, continue available columns will be detected with the following
+            pass
+
+    # Make a dataframe of closing prices called close_df. - https://realpython.com/pandas-dataframe/
+    close_df = None
+    if isinstance(data.columns, pd.MultiIndex): # Using the if/else will help avoid errors if the CSV doesn't have multi-level columns. (but I know it does after a manual check).
+        # Normally, it will be: top-level contains 'Close', second-level contains tickers
+        if 'Close' in data.columns.get_level_values(0):
+            close_df = data['Close']
+        else:
+            # Try to find a top-level name that includes 'Close'
+            top_levels = list(dict.fromkeys(data.columns.get_level_values(0)))
+            print("Top-level column names found:", top_levels)
+            for name in top_levels:
+                if 'Close' in str(name):
+                    close_df = data[name]
+                    break
+    else:
+        # Single-level columns: try to find columns that mention 'Close'
+        close_cols = [c for c in data.columns if 'Close' in str(c)]
+        if close_cols:
+            close_df = data[close_cols]
+
+    if close_df is None:
+        print("Could not find 'Close' columns. Available columns (first 30):")
+        print(list(data.columns)[:30])
+        raise KeyError("Close columns not found in CSV - file format not recognised")
+
+    # Plot the closing prices of each stock over time (only when available) - this will be done per hourly data over 5 days
+    fig, ax = plt.subplots(figsize=(14, 7))
+    for ticker in tickers:
+        if ticker in close_df.columns:
+            # Make sure values are numeric
+            series = pd.to_numeric(close_df[ticker], errors='coerce')
+            ax.plot(series.index, series.values, label=ticker)
+        else:
+            print(f"Ticker {ticker} not found in Close data; available: {list(close_df.columns)}")
+
+    ax.set_title(f"FAANG Stock Closing Prices - {latest_file.split('.')[0]}")
+    ax.set_xlabel("Date")
+    ax.set_ylabel("Closing Price (USD)")
+    ax.legend()
+    ax.grid()
+    fig.tight_layout()
+    # Show the plot interactively (optional) and return the Figure so caller can save it
     plt.show()
+    return fig
     
-# Now to call the function to plot the data#
-plot_data()
+# Now to call the function to plot the data and capture the Figure for saving
+fig = plot_data() # easier to access for saving.
 
+# Now that I know it works, I will add comments and references to the code in jupyter to explain what each part does.
 
-# I need to find the latest file in the directory.
+# Now to save the plot as a .png file in a folder called plots-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv. and make sure I don't lose the date and time index.
 
-# then need to degine the function to plot the data
-# used the def plot_data()
+output_plot_dir = r"D:\Data_Analytics\Modules\CI\computer-infrastructure\plots-faang-stocks"
+if not os.path.exists(output_plot_dir):
+    os.makedirs(output_plot_dir)
+    # Get the absolute path of the output directory
+absolute_output_plot_dir = os.path.abspath(output_plot_dir)
+
+# Save the plot to a PNG file using the returned Figure - modified code from what was being used for csv saving
+current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+file_plot_path = os.path.join(absolute_output_plot_dir, f"{current_time}.png")
+if fig is not None:
+    try:
+        fig.savefig(file_plot_path, bbox_inches='tight', dpi=150)
+    except Exception as e:
+        print(f"Failed to save figure: {e}")
+else:
+    print("No figure returned from plot_data(); nothing to save.")
+
+# Verify the file was saved
+print(f"File saved at: {file_plot_path}")
+print(f"Absolute path to output directory: {absolute_output_plot_dir}")
+print("Files in directory:", os.listdir(output_plot_dir))
+
+# Next get this to be automated and run every Saturday.
 
 # END
