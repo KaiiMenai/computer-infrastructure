@@ -18,6 +18,20 @@ The current [faang.py](D:\Data_Analytics\Modules\CI\computer-infrastructure\faan
 An Example using pip:
 
 ```
+# Powershell (Windows)
+pythosn -m vsnv .venv
+.\\.venv\\Scripts\\Activate.ps1
+pip install -r requirements.txt
+```
+
+Alternatively:
+
+```
+# macOS / Linux
+python3 -m venv .venv
+source .vemv/bin/active
+pip install -r requirements.txt
+```
 
 
 Currently testing to make sure that everything is working as expected.
