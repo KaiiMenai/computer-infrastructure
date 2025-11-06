@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.12
 # This program will contain the code to import and plot FAANG data.
 # This is for the Computer Infrastructure course.
 
