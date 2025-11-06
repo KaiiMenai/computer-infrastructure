@@ -33,6 +33,30 @@ source .vemv/bin/active
 pip install -r requirements.txt
 ```
 
+Once installed run the program.
+
+#### Running on Windows
+
+Windows ignores the shebang line. Use the Python launcher (py) or call the full python.exe path.
+
+- Run with the Python launcher (selects installed Python version):
+
+```
+# Use the py launcher to run with Python 3.12 specifically - for minimal issues.
+py -3.12 d:\Data_Analytics\Modules\CI\computer-infrastructure\faang.py
+```
+
+- Or run via the active venv/python:
+
+```
+# From project root after activating venv
+python d:\Data_Analytics\Modules\CI\computer-infrastructure\faang.py
+```
+
+- If you need a scheduled run, create a Task in Windows Task Scheduler that runs the above py or python command.
+
+#### Running on macOS / Linux
+
 
 Currently testing to make sure that everything is working as expected.
 
