@@ -25,7 +25,7 @@ faang5_data = yf.download(tickers="AAPL AMZN META GOOG NFLX", period="5d", inter
 
 def get_data(faang5_data): 
     print(faang5_data) # to check it works
-    return faang5_data
+    return faang5_data 
 
 # Now need to call the function to get the data
 get_data(faang5_data)
