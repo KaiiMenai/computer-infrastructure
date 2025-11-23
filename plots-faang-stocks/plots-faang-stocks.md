@@ -1,4 +1,5 @@
 # This folder will contain the plots for the faang data.
+
 ## Author: Kyra Menai Hamilton
 
 # Plots of the faang data
