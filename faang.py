@@ -123,7 +123,7 @@ def plot_data():
         print(list(data.columns)[:30])
         raise KeyError("Close columns not found in CSV - file format not recognised")
 
-    # Plot the closing prices of each stock over time (only when available) - this will be done per hourly data over 5 days
+    # Plot the closing prices of each stock over time (only when available) - this will be done per hourly data over the 5 days of the data (included in the .csv).
     fig, ax = plt.subplots(figsize=(14, 7))
     for ticker in tickers:
         if ticker in close_df.columns:
@@ -173,5 +173,6 @@ print(f"Absolute path to output directory: {absolute_output_plot_dir}")
 print("Files in directory:", os.listdir(output_plot_dir))
 
 # Next get this to be automated and run every Saturday.
+
 
 # END
