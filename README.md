@@ -57,7 +57,6 @@ python d:\Data_Analytics\Modules\CI\computer-infrastructure\faang.py
 
 #### Running on macOS / Linux
 
-
 Currently testing to make sure that everything is working as expected.
 
 Looking at setting up automatic workflows.
