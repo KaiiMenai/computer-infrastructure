@@ -173,6 +173,9 @@ print(f"Absolute path to output directory: {absolute_output_plot_dir}")
 print("Files in directory:", os.listdir(output_plot_dir))
 
 # Next get this to be automated and run every Saturday.
+# need to specify this in the README file, and create a requirements.txt file for the necessary packages, as well as allowing it to be run in a virtual environment.
+# will also need to add permissions to run the script automatically every Saturday.
+
 
 
 # END
