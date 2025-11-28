@@ -139,7 +139,7 @@ def plot_data():
     ax.legend()
     ax.grid()
     fig.tight_layout()
-    # Show the plot interactively (optional) and return the Figure so caller can save it
+    # Show the plot interactively (optional) and return the Figure so it can be saved
     plt.show()
     return fig
     
@@ -175,7 +175,5 @@ print("Files in directory:", os.listdir(output_plot_dir))
 # Next get this to be automated and run every Saturday.
 # need to specify this in the README file, and create a requirements.txt file for the necessary packages, as well as allowing it to be run in a virtual environment.
 # will also need to add permissions to run the script automatically every Saturday.
-
-
 
 # END
