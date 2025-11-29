@@ -1,0 +1,25 @@
+name: Run faang.py every Sunday
+
+on:
+  schedule:
+    - cron: '0 12 * * 0' # This gets the code to run as 12pm every Sunday to test it works - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
+  workflow_dispatch:  # allow manual runs from GitHub UI
+
+jobs:
+  run-faang:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run faang.py
+        run: python faang.py
