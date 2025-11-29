@@ -176,4 +176,7 @@ print("Files in directory:", os.listdir(output_plot_dir))
 # need to specify this in the README file, and create a requirements.txt file for the necessary packages, as well as allowing it to be run in a virtual environment.
 # will also need to add permissions to run the script automatically every Saturday.
 
+# 29/11/25 - updated the code to run through a virtual environment.
+# working in codespaces I had git commit issues it gave a git user.name error 403 - so to check the username and display name were the same to fix issue.
+
 # END
