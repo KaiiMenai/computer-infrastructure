@@ -33,7 +33,7 @@ get_data(faang5_data)
 # I kept getting an error that the folder didn't exist so I created it manually in the root repository.
 # So now I need to check that the directory exists before trying to save the file.
 import os
-output_dir = r"D:\Data_Analytics\Modules\CI\computer-infrastructure\data-faang-stocks"
+output_dir = r"/workspaces/computer-infrastructure/data-faang-stocks"
 if not os.path.exists(output_dir):
     os.makedirs(output_dir)
     
@@ -150,7 +150,7 @@ fig = plot_data() # easier to access for saving.
 
 # Now to save the plot as a .png file in a folder called plots-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv. and make sure I don't lose the date and time index.
 
-output_plot_dir = r"D:\Data_Analytics\Modules\CI\computer-infrastructure\plots-faang-stocks"
+output_plot_dir = r"/workspaces/computer-infrastructure/plots-faang-stocks"
 if not os.path.exists(output_plot_dir):
     os.makedirs(output_plot_dir)
     # Get the absolute path of the output directory
