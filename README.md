@@ -2,6 +2,26 @@
 
 This folder will contain work for the CI module
 
+## Overview
+
+This repository forms the basis of work and analysis carried out for the Computer Infrastructure Module.
+
+The content wiol be split inot 4 segments:
+
+1. Retrieving the data.
+2. Cleaning and the data and plotting the data.
+3. FIND IT
+4. Automation of using the workflows.
+
+## Steps
+
+Prior to any data analysis, it was important to get the correct Modules downloaded Nd installed into the workspace. The full list is found in `requiremets.txt`.
+
+Should an error message appear, use the ```pip install``` command in the terminal, to ensure that the required packages are installed.
+
+Nexr, its time to get the data. For this two methods can be used. The first involves ```url ='url'``` where data is sourced directly from the url, the secind incolves saving the data as a .csv.
+As saving the data in csv form directly to a file using python is part of the requirements for this twsk, I shall discuss this was done from the url and saved as a csv in the `data-faang-data` folder. The data and time of url access and sacinf was used as the file name. this was also ised for the plot later in irderfor accurate referencing between dsta file and plot.
+
 ## Jupyter
 
 ## Cross-platform instructions (Windows / macOS / Linux)
@@ -72,6 +92,8 @@ Looking at setting up automatic workflows.
 - CSV output directory: `data-faang-stocks/`
 - Plots directory: `plots-faang-stocks/`
 - Plot filename pattern: `YYYYMMDD-HHMMSS.png` (script uses current timestamp)
+
+
 
 ## Troubleshooting hints
 
