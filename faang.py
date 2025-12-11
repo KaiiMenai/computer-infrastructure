@@ -179,4 +179,8 @@ print("Files in directory:", os.listdir(output_plot_dir))
 # 29/11/25 - updated the code to run through a virtual environment.
 # working in codespaces I had git commit issues it gave a git user.name error 403 - so to check the username and display name were the same to fix issue.
 
+# Git comission issue fixed by setting the git config user.name and user.email to match the GitHub account used for codespaces.
+
+# Automation problems detected.
+
 # END
