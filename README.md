@@ -20,7 +20,7 @@ Prior to any data analysis, it was important to get the correct Modules download
 Should an error message appear, use the ```pip install``` command in the terminal, to ensure that the required packages are installed.
 
 Next, its time to get the data. For this two methods can be used. The first involves ```url ='url'``` where data is sourced directly from the url, the second involves saving the data as a .csv.
-As saving the data in csv form directly to a file using python is part of the requirements for this task, I shall discuss this was done from the url and saved as a csv in the `data-faang-data` folder. The data and time of url access and saving was used as the file name. this was also used for the plot later in order for accurate referencing between data file and plot.
+As saving the data in csv form directly file using python is part of the requirements for this task, I shall discuss this was done from the url and saved as a csv in the `data-faang-data` folder. The data and time of url access and saving was used as the file name. this was also used for the plot later in order for accurate referencing between data file and plot.
 
 ## Jupyter
 
@@ -75,6 +75,8 @@ python d:\Data_Analytics\Modules\CI\computer-infrastructure\faang.py
 
 - If you need a scheduled run, create a Task in Windows Task Scheduler that runs the above py or python command.
 
+- This can also be done by creating a custom workflow through GitHub (Actions>workflow>create).
+
 #### Running on macOS / Linux
 
 Currently testing to make sure that everything is working as expected.
@@ -84,6 +86,8 @@ Looking at setting up automatic workflows.
 - need to add workflow template.
 - modify to create a condition where something like "if Saturday = X".
 - test workflow using alternate days initially then change to a Saturday.
+
+**NOTE: Error repeatedly comes on automated run following codespaces set up - need to check differences of vscode desktop vs. codespaces.**
 
 ### Jupyter / Notebook usage
 
