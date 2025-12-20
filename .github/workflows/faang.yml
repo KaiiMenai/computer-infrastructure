@@ -1,9 +1,17 @@
 name: Run faang.py every Saturday and push changes
 
+# Adapted from Grok:
+# https://grok.com/share/c2hhcmQtNA_299055a9-79bd-4951-8914-ab0e4050bcfc
+
 on:
+  workflow_dispatch:   # allow manual runs from GitHub UI
   schedule:
-    - cron: '0 10 * * 6' # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
-  workflow_dispatch:  # allow manual runs from GitHub UI
+    # From: https://crontab.guru/#0_10_*_*_6
+    - cron: "0 10 * * 6" # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
+
+
+permissions:
+  contents: write   # Required to push changes
 
 jobs:
   run-download:
