@@ -12,7 +12,7 @@ permissions:
   contents: write   # required to push changes
 
 jobs:
-  run-download:
+    run-download:
     runs-on: ubuntu-latest
 
     steps:
