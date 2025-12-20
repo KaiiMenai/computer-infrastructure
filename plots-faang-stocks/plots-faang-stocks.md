@@ -9,7 +9,7 @@ Each of the plots contained in this folder relate to a .csv file in the 'data-fa
 They are automatically saved to this folder during the running of the code using:
 
 ```
-output_plot_dir = r"D:\Data_Analytics\Modules\CI\computer-infrastructure\plots-faang-stocks"
+output_plot_dir = r"plots-faang-stocks\"
 if not os.path.exists(output_plot_dir):
     os.makedirs(output_plot_dir)
     # Get the absolute path of the output directory
