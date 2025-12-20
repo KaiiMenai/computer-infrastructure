@@ -1,13 +1,9 @@
-name: Run faang.py every Saturday and push changes
+name: Run faang.py every Saturday
 
 on:
-  workflow_dispatch:  # allow manual runs from GitHub UI
   schedule:
-    # From: https://crontab.guru/#0_10_*_*_6
-    - cron: "0 10 * * 6"   # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
-
-permissions:
-  contents: write   # required to push changes
+    - cron: '0 12 * * 6' # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
+  workflow_dispatch:  # allow manual runs from GitHub UI
 
 jobs:
   run-download:
@@ -16,22 +12,17 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # default token with write permissions
-          fetch-depth: 0                      # ensure full history for committing
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.x"
 
-      - name: Install dependencies (optional)
-        run: |
-          pip install -r requirements.txt || true
+      - name: Install dependencies
+        run: pip install -r requirements.txt
 
       - name: Run faang.py
-        run: |
-          python materials/faang.py
+        run: python faang.py
 
       - name: Commit changes
         run: |
