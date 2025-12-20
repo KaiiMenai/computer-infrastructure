@@ -7,7 +7,7 @@ on:
   workflow_dispatch:   # allows manual runs
   schedule:
     # From: https://crontab.guru/#0_10_*_*_6
-    - cron: "0 10 * * 6"   # runs hourly (optional)
+    - cron: "0 11 * * 6"   # runs hourly (optional)
 
 permissions:
   contents: write   # required to push changes
