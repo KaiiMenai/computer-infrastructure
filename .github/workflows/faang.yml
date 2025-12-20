@@ -1,16 +1,18 @@
 name: Run faang.py and push changes
 # Adapted from Grok:
 # https://grok.com/share/c2hhcmQtNA_299055a9-79bd-4951-8914-ab0e4050bcfc
-
+# Adapted from what Ian showed in videos: 
+  # 39 - https://atlantictu-my.sharepoint.com/personal/ian_mcloughlin_atu_ie/_layouts/15/stream.aspx?id=%2Fpersonal%2Fian_mcloughlin_atu_ie%2FDocuments%2Fstudent_shares%2Fcomputer-infrastructure%2F39-debugging%2Emkv&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E281f8c2b-6f6d-4bc4-bc74-41e774b911fa
+  # and 40 - https://atlantictu-my.sharepoint.com/personal/ian_mcloughlin_atu_ie/_layouts/15/stream.aspx?id=%2Fpersonal%2Fian_mcloughlin_atu_ie%2FDocuments%2Fstudent_shares%2Fcomputer-infrastructure%2F40-actions-review%2Emkv&referrer=StreamWebApp%2EWeb&referrerScenario=AddressBarCopied%2Eview%2E9122a39f-e409-47e1-b639-45a9c3ba4f0f
 
 on:
-  workflow_dispatch:   # allows manual runs
+  workflow_dispatch:   # This allows manual runs
   schedule:
     # From: https://crontab.guru/#0_10_*_*_6
-    - cron: "0 10 * * 6"   # runs hourly (optional)
+    - cron: "0 10 * * 6"   # The workflow will run hourly at 10:00 on Saturday (UTC time)
 
 permissions:
-  contents: write   # required to push changes
+  contents: write   # This is required to push changes
 
 jobs:
   run-download:
@@ -20,8 +22,8 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # default token with write permissions
-          fetch-depth: 0                      # ensure full history for committing
+          token: ${{ secrets.GITHUB_TOKEN }}  # Default token with write permissions
+          fetch-depth: 0                      # Ensure full history for committing
 
       - name: Set up Python
         uses: actions/setup-python@v5
