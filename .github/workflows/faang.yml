@@ -1,8 +1,8 @@
-name: Run faang.py every Saturday
+name: Run faang.py every Saturday and push changes
 
 on:
   schedule:
-    - cron: '0 12 * * 6' # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
+    - cron: '0 10 * * 6' # This gets the code to run as 12pm every Saturday - https://medium.com/@songulerdemguler/running-scheduled-code-on-github-8e6a03a8d88b
   workflow_dispatch:  # allow manual runs from GitHub UI
 
 jobs:
