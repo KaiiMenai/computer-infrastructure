@@ -182,5 +182,6 @@ print("Files in directory:", os.listdir(output_plot_dir))
 # Git commission issue fixed by setting the git config user.name and user.email to match the GitHub account used for codespaces.
 
 # Automation problems detected.
+# Automation problems fixed - copied and adapted the code by Ian - realised I could have done the same with my own that I had originally written as the problem was actually in the .py and save location, not the workflow itself.
 
 # END
