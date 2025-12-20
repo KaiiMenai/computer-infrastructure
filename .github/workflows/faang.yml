@@ -1,7 +1,6 @@
+name: Run faang.py and push changes
 # Adapted from Grok:
 # https://grok.com/share/c2hhcmQtNA_299055a9-79bd-4951-8914-ab0e4050bcfc
-
-name: Run faang.py and push changes
 
 on:
   workflow_dispatch:   # allows manual runs
