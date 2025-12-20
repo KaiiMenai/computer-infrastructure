@@ -33,7 +33,7 @@ jobs:
 
       - name: Run faang.py
         run: |
-          python materials/faang.py
+          python computer-infrastructure/faang.py
 
       - name: Commit changes
         run: |
