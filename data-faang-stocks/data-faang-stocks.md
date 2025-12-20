@@ -8,7 +8,7 @@ Data for the faang extracted data will be in this folder
 
 The data was saved to this folder automatically, here are some code excerpts:
 
-```
+```python
 # Source the data
 def get_data():
     """Download FAANG hourly data for the last 5 days and return a DataFrame."""

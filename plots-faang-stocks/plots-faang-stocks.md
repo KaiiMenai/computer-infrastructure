@@ -8,7 +8,7 @@ Each of the plots contained in this folder relate to a .csv file in the 'data-fa
 
 They are automatically saved to this folder during the running of the code using:
 
-```
+```python
 output_plot_dir = r"plots-faang-stocks\"
 if not os.path.exists(output_plot_dir):
     os.makedirs(output_plot_dir)
