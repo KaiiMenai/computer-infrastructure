@@ -1,4 +1,4 @@
-#!/usr/bin/env python3.12
+#!/usr/bin/env python3
 # This program will contain the code to import and plot FAANG data.
 # This is for the Computer Infrastructure course.
 
@@ -21,56 +21,33 @@ import scipy as spy
 
 # This code downloads the hourly data for the last 5 days for the 5 FAANG stocks (Facebook, Apple, Amazon, Netflix, Google) using the yfinance package.
 
-faang5_data = yf.download(tickers="AAPL AMZN META GOOG NFLX", period="5d", interval="1h") # adapted from https://stackoverflow.com/questions/74479906/how-to-get-aggregate-4hour-bars-historical-stock-data-using-yfinance-in-python
-
-def get_data(faang5_data): 
+def get_data():
+    """Download FAANG hourly data for the last 5 days and return a DataFrame."""
+    faang5_data = yf.download(tickers="AAPL AMZN META GOOG NFLX", period="5d", interval="1h") # adapted from https://stackoverflow.com/questions/74479906/how-to-get-aggregate-4hour-bars-historical-stock-data-using-yfinance-in-python
     print(faang5_data) # to check it works
-    return faang5_data 
+    return faang5_data
 
-# Now need to call the function to get the data
-get_data(faang5_data)
-
-# I kept getting an error that the folder didn't exist so I created it manually in the root repository.
-# So now I need to check that the directory exists before trying to save the file.
+# Directory handling and CSV saving have been moved into helper functions and are now performed inside `main()` below.
+# This avoids running downloads/saves at import time and makes the module safe to import.
 import os
-output_dir = r"data-faang-stocks/"
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
-    
-    # Get the absolute path of the output directory
-absolute_output_dir = os.path.abspath(output_dir)
-
-# Need to make sure that the file is saved in the correct type - integer, float etc.
-data_types = faang5_data.dtypes
-print("Data types of each column:" , data_types) # with floats and ints it will make it harder to plot the data.
-
-# Now to save it as a .csv file in a folder called data-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv. and make sure I don't lose the date and time index.
-# Save the data to a CSV file
-current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-file_path = os.path.join(absolute_output_dir, f"{current_time}.csv")
-faang5_data.to_csv(file_path, date_format='%Y-%m-%d %H:%M:%S') # adapted from https://stackoverflow.com/questions/30298144/datetime-format-change-when-save-to-csv-file-python
-
-# Verify the file was saved
-print(f"File saved at: {file_path}")
-print(f"Absolute path to output directory: {absolute_output_dir}")
-print("Files in directory:", os.listdir(output_dir))
 
 # Now I want to create a function that opens the latest data file in the data-faang-stocks folder and plots the closing prices of each stock over time.
 # I will use the date as the title for the plot. https://www.kaggle.com/code/leeyongbin/faang-stock-data-visualization
 
 def plot_data():
-    # Get the list of files in the directory
-    files = os.listdir(absolute_output_dir)
+    # Use data directory where CSVs are saved
+    data_dir = ensure_dir("data-faang-stocks/")
+    files = os.listdir(data_dir)
     # Filter out only CSV files
     csv_files = [f for f in files if f.lower().endswith('.csv')]
     if not csv_files:
-        print(f"No CSV files found in {absolute_output_dir}")
+        print(f"No CSV files found in {data_dir}")
         return
 
     # Sort the files by modification time in descending order and pick latest
-    csv_files.sort(key=lambda x: os.path.getmtime(os.path.join(absolute_output_dir, x)), reverse=True)
+    csv_files.sort(key=lambda x: os.path.getmtime(os.path.join(data_dir, x)), reverse=True)
     latest_file = csv_files[0]
-    latest_file_path = os.path.join(absolute_output_dir, latest_file)
+    latest_file_path = os.path.join(data_dir, latest_file)
     print(f"Using latest CSV: {latest_file}")
 
     tickers = ["AAPL", "AMZN", "META", "GOOG", "NFLX"]
@@ -143,34 +120,54 @@ def plot_data():
     plt.show()
     return fig
     
-# Now to call the function to plot the data and capture the Figure for saving
-fig = plot_data() # easier to access for saving.
+def ensure_dir(path):
+    """Create directory if missing and return absolute path."""
+    if not os.path.exists(path):
+        os.makedirs(path)
+    return os.path.abspath(path)
 
-# Now that I know it works, I will add comments and references to the code in jupyter to explain what each part does.
 
-# Now to save the plot as a .png file in a folder called plots-faang-stocks in the root repository with the correct naming format YYYYMMDD-HHmmss.csv. and make sure I don't lose the date and time index.
+def save_csv(data, output_dir):
+    absolute_output_dir = ensure_dir(output_dir)
+    current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    file_path = os.path.join(absolute_output_dir, f"{current_time}.csv")
+    data.to_csv(file_path, date_format='%Y-%m-%d %H:%M:%S')
+    print(f"File saved at: {file_path}")
+    print(f"Absolute path to output directory: {absolute_output_dir}")
+    print("Files in directory:", os.listdir(output_dir))
+    return file_path, absolute_output_dir
 
-output_plot_dir = r"plots-faang-stocks/"
-if not os.path.exists(output_plot_dir):
-    os.makedirs(output_plot_dir)
-    # Get the absolute path of the output directory
-absolute_output_plot_dir = os.path.abspath(output_plot_dir)
 
-# Save the plot to a PNG file using the returned Figure - modified code from what was being used for csv saving
-current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
-file_plot_path = os.path.join(absolute_output_plot_dir, f"{current_time}.png")
-if fig is not None:
-    try:
-        fig.savefig(file_plot_path, bbox_inches='tight', dpi=150)
-    except Exception as e:
-        print(f"Failed to save figure: {e}")
-else:
-    print("No figure returned from plot_data(); nothing to save.")
+def save_plot(fig, output_plot_dir):
+    absolute_output_plot_dir = ensure_dir(output_plot_dir)
+    current_time = datetime.datetime.now().strftime("%Y%m%d-%H%M%S")
+    file_plot_path = os.path.join(absolute_output_plot_dir, f"{current_time}.png")
+    if fig is not None:
+        try:
+            fig.savefig(file_plot_path, bbox_inches='tight', dpi=150)
+        except Exception as e:
+            print(f"Failed to save figure: {e}")
+    else:
+        print("No figure returned from plot_data(); nothing to save.")
+    print(f"File saved at: {file_plot_path}")
+    print(f"Absolute path to output directory: {absolute_output_plot_dir}")
+    print("Files in directory:", os.listdir(output_plot_dir))
+    return file_plot_path, absolute_output_plot_dir
 
-# Verify the file was saved
-print(f"File saved at: {file_plot_path}")
-print(f"Absolute path to output directory: {absolute_output_plot_dir}")
-print("Files in directory:", os.listdir(output_plot_dir))
+
+def main():
+    # download and save data
+    faang5_data = get_data()
+    print("Data types of each column:" , faang5_data.dtypes)
+    save_csv(faang5_data, "data-faang-stocks/")
+
+    # make plot and save
+    fig = plot_data()
+    save_plot(fig, "plots-faang-stocks/")
+
+
+if __name__ == "__main__":
+    main()
 
 # Next get this to be automated and run every Saturday.
 # need to specify this in the README file, and create a requirements.txt file for the necessary packages, as well as allowing it to be run in a virtual environment.
