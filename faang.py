@@ -4,7 +4,6 @@
 
 ## Author: Kyra Menai Hamilton
 ## Date: 30/09/2025
-## Version: 1.0
 
 # First need to make sure the correct modules are installed.
 # I decided to add all of these libraries because they are commonly used for data analysis and visualization and are allowed according to the requirements.
